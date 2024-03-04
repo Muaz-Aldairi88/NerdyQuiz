@@ -1,24 +1,29 @@
-import logo from './logo.svg';
+import { useSelector } from 'react-redux';
 import './App.css';
+import QuizSettings from './components/QuizSettings';
+import Question from './components/Question';
+import ScoreView from './components/ScoreView';
+
+
 
 function App() {
+  const questions=useSelector((state) => state.questions);
+  const questionIndex=useSelector((state) => state.questionIndex);
+  
+  let component;
+  if (questions.length && questionIndex + 1 <= questions.length) {
+    component = <Question />
+  } else if (!questions.length) {
+    component = <QuizSettings />
+  } else {
+    component = <ScoreView />
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="container mt-5">
+        <h1 class="row justify-content-center m-5" >Nerdy Quiz</h1>
+        {component}
+      </div>
   );
 }
 
